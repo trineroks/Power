@@ -9,14 +9,18 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  */
 public class Resources {
     public static Texture terrain;
+    public static Texture terrain2;
     public static TextureRegion roadHorizontal;
+    public static TextureRegion roadVertical;
+
+    public static void load() {
+        terrain = loadSheet("RoadHorizontal.png");
+        terrain2 = loadSheet("RoadVertical.png");
+        roadHorizontal = new TextureRegion(terrain, 0,0,16,16);
+        roadVertical = new TextureRegion(terrain2, 0,0,16,16);
+    }
 
     public static Texture loadSheet(String file) {
         return new Texture(Gdx.files.internal(file));
-    }
-
-    public static void load() {
-        terrain = loadSheet("RoadHorizonal.png");
-        roadHorizontal = new TextureRegion(terrain, 0,0,16,16);
     }
 }

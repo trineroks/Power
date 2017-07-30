@@ -43,7 +43,7 @@ public class MainMenuScreen extends AbstractScreen {
 
         if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
             game.setScreen(new GameScreen(game));
-            dispose();
+            //dispose();
         }
     }
 

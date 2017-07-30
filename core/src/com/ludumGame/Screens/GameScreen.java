@@ -1,17 +1,19 @@
 package com.ludumGame.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.ludumGame.Map;
 import com.ludumGame.PowerTown;
 import com.ludumGame.PowerTownRenderer;
 
-public class GameScreen extends AbstractScreen {
+public class GameScreen extends AbstractScreen implements InputProcessor {
 
     Map map;
     PowerTownRenderer renderer;
 
     public GameScreen(PowerTown game) {
         super(game);
+        Gdx.input.setInputProcessor(this);
     }
 
     @Override
@@ -28,21 +30,46 @@ public class GameScreen extends AbstractScreen {
     }
 
     @Override
-    public void hide() {
-
+    public boolean keyDown(int keycode) {
+        return false;
     }
 
     @Override
-    public void pause() {
+    public boolean keyUp(int keycode) {
+        return false;
     }
 
     @Override
-    public void resume() {
+    public boolean keyTyped(char character) {
+        return false;
     }
 
     @Override
-    public void dispose() {
+    public boolean touchDown(int x, int y, int pointer, int button) {
+        renderer.keyDown(x, y);
+        return false;
+    }
 
+    @Override
+    public boolean touchUp(int x, int y, int pointer, int button) {
+        renderer.keyUp(x, y);
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int x, int y, int pointer) {
+        renderer.keyDown(x, y);
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
     }
 
 }

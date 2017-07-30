@@ -66,13 +66,13 @@ public class NinePatchDialog {
     public void render(Batch batch, Map map, float delta) {
         if (state == State.Opening) {
             if (height != Settings.dialogHeight)
-                height += 112 * delta;
+                height += 112 * delta * Settings.dialogTimeMultiplier;
             if (width != Settings.dialogWidth)
-                width += 208 * delta;
+                width += 208 * delta * Settings.dialogTimeMultiplier;
             if (y != Settings.dialogPositionY)
-                y -= 56 * delta;
+                y -= 56 * delta * Settings.dialogTimeMultiplier;
             if (x != Settings.dialogPositionX)
-                x -= 104 * delta;
+                x -= 104 * delta * Settings.dialogTimeMultiplier;
             patch.draw(batch, x, y, width, height);
             if (height >= Settings.dialogHeight && width >= Settings.dialogWidth && x <= Settings.dialogPositionX && y <= Settings.dialogPositionY)
                 state = State.Opened;
@@ -83,13 +83,13 @@ public class NinePatchDialog {
         }
         else if (state == State.Closing) {
             if (height >= 10)
-                height -= 112 * delta;
+                height -= 112 * delta * Settings.dialogTimeMultiplier;
             if (width >= 10)
-                width -= 208 * delta;
+                width -= 208 * delta * Settings.dialogTimeMultiplier;
             if (y <= Settings.gameBoardHeight/2)
-                y += 56 * delta;
+                y += 56 * delta * Settings.dialogTimeMultiplier;
             if (x <= Settings.gameBoardWidth/2)
-                x += 104 * delta;
+                x += 104 * delta * Settings.dialogTimeMultiplier;
             patch.draw(batch, x, y, width, height);
             if (height <= 10 && width <= 10) {
                 hide();

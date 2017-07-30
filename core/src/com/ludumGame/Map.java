@@ -1,12 +1,14 @@
 package com.ludumGame;
 
 import com.badlogic.gdx.graphics.g2d.SpriteCache;
+import com.ludumGame.Buildings.Building;
 
 /**
  * Created by trineroks on 7/29/17.
  */
 public class Map {
-    int[][] tiles;
+    public int[][] tiles;
+    public Building building;
 
     public int widthToPixel(int x) {
         int posX = x * Settings.tilePixelWidth;
@@ -16,6 +18,11 @@ public class Map {
     public int heightToPixel(int y) {
         int posY = y * Settings.tilePixelHeight;
         return posY;
+    }
+
+    public void generateBuildings() {
+        building = new Building(Resources.supermarket);
+        building.setInGamePosition(6,5,this);
     }
 
     public int generateTerrain(SpriteCache cache) {

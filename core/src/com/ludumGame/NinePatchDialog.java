@@ -41,8 +41,8 @@ public class NinePatchDialog {
 
     private void hide() {
         state = State.Closed;
-        this.x = -1;
-        this.y = -1;
+        this.x = -20;
+        this.y = -20;
         this.height = 0;
         this.width = 0;
     }
@@ -82,16 +82,16 @@ public class NinePatchDialog {
             font.drawWrapped(batch, content, map.widthToPixel(14), map.heightToPixel(20), map.widthToPixel(22));
         }
         else if (state == State.Closing) {
-            if (height >= 10)
+            if (height >= 20)
                 height -= 112 * delta * Settings.dialogTimeMultiplier;
-            if (width >= 10)
+            if (width >= 20)
                 width -= 208 * delta * Settings.dialogTimeMultiplier;
             if (y <= Settings.gameBoardHeight/2)
                 y += 56 * delta * Settings.dialogTimeMultiplier;
             if (x <= Settings.gameBoardWidth/2)
                 x += 104 * delta * Settings.dialogTimeMultiplier;
             patch.draw(batch, x, y, width, height);
-            if (height <= 10 && width <= 10) {
+            if (height <= 20 && width <= 20) {
                 hide();
             }
         }

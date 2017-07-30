@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.ludumGame.Map;
 import com.ludumGame.PowerTown;
 import com.ludumGame.PowerTownRenderer;
+import com.ludumGame.Settings;
 
 public class GameScreen extends AbstractScreen implements InputProcessor {
 
@@ -46,18 +47,21 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
 
     @Override
     public boolean touchDown(int x, int y, int pointer, int button) {
+        y = Settings.screenHeight - y; //moving origin to bottom left to conform to project
         renderer.keyDown(x, y);
         return false;
     }
 
     @Override
     public boolean touchUp(int x, int y, int pointer, int button) {
+        y = Settings.screenHeight - y; //moving origin to bottom left to conform to project
         renderer.keyUp(x, y);
         return false;
     }
 
     @Override
     public boolean touchDragged(int x, int y, int pointer) {
+        y = Settings.screenHeight - y; //moving origin to bottom left to conform to project
         renderer.keyDown(x, y);
         return false;
     }

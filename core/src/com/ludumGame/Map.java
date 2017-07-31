@@ -10,6 +10,36 @@ public class Map {
     public int[][] tiles;
     public Building building;
 
+    private int power, hunger, crime, happy, coin;
+
+    public Map() {
+        power = 100;
+        hunger = 100;
+        crime = 0;
+        happy = 100;
+        coin = 100;
+    }
+
+    public int getPower() {
+        return power;
+    }
+
+    public int getHunger() {
+        return hunger;
+    }
+
+    public int getCrime() {
+        return crime;
+    }
+
+    public int getHappy() {
+        return happy;
+    }
+
+    public int getCoin() {
+        return coin;
+    }
+
     public int widthToPixel(int x) {
         int posX = x * Settings.tilePixelWidth;
         return posX;
@@ -23,6 +53,10 @@ public class Map {
     public void generateBuildings() {
         building = new Building(Resources.supermarket);
         building.setInGamePosition(6,5,this);
+    }
+
+    public void update(float delta) {
+        power--;
     }
 
     public int generateTerrain(SpriteCache cache) {

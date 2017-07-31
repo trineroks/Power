@@ -15,7 +15,7 @@ public class Building extends Rectangle {
     private State state;
     private float brightness;
     private float maxBright = 255.0f;
-    private float minBright = 150.0f;
+    private float minBright = 190.0f;
     private float glowRate = 200.0f;
     private boolean glowForward;
 

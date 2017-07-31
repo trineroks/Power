@@ -22,7 +22,7 @@ public class NinePatchDialog {
     }
 
     public NinePatchDialog() {
-        this.patch = new NinePatch(Resources.ninePatch, 10, 10, 10, 10);
+        this.patch = new NinePatch(Resources.dialogNinePatch, 10, 10, 10, 10);
         this.font = new BitmapFont();
         this.state = State.Closed;
     }

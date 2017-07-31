@@ -15,11 +15,13 @@ public class PowerTownRenderer {
     OrthographicCamera camera;
     SpriteCache cache;
     ShapeRenderer lightBox;
-    SpriteBatch batch = new SpriteBatch();
     Map map;
     int tileID;
     NinePatchDialog dialog;
     inputState input;
+    SpriteBatch batch;
+
+    DeskRenderer desk;
 
     int pointerX, pointerY;
 
@@ -29,13 +31,15 @@ public class PowerTownRenderer {
         KEYUP
     }
 
-    public PowerTownRenderer(Map map) {
+    public PowerTownRenderer(Map map, SpriteBatch batch) {
         this.map = map;
+        this.batch = batch;
         this.camera = new OrthographicCamera();
         this.camera.setToOrtho(false, Settings.screenWidth, Settings.screenHeight);
         this.cache = new SpriteCache(map.tiles.length * map.tiles[0].length, false);
         this.lightBox = new ShapeRenderer();
         this.dialog = new NinePatchDialog();
+        this.desk = new DeskRenderer();
         dialog.setContent("Welcome to PowerTown! You are mayor of a town that is limited on power. Make sure to budget your power wisely between buildings to maintain high approval ratings!");
         dialog.display();
         this.input = inputState.DEFAULT;
@@ -97,10 +101,12 @@ public class PowerTownRenderer {
         handleLightBoxes(delta);
         batch.begin();
         renderBuildings();
+        desk.render(batch, map, delta);
         dialog.render(batch, map, delta);
         batch.end();
         handleInput();
         resetInput();
+        map.update(delta);
     }
 
     public void renderBuildings() {

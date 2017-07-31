@@ -12,16 +12,16 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     Map map;
     PowerTownRenderer renderer;
 
-    public GameScreen(PowerTown game) {
+    public GameScreen(PowerTown game, Map map) {
         super(game);
+        this.map = map;
         Gdx.input.setInputProcessor(this);
     }
 
     @Override
     public void show() {
-        map = new Map();
         map.generate();
-        renderer = new PowerTownRenderer(map);
+        renderer = new PowerTownRenderer(map, game.batch);
     }
 
     @Override

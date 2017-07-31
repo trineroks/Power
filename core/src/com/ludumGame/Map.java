@@ -2,26 +2,41 @@ package com.ludumGame;
 
 import com.badlogic.gdx.graphics.g2d.SpriteCache;
 import com.ludumGame.Buildings.Building;
+import com.ludumGame.Buildings.FoodBuilding;
+
+import java.util.ArrayList;
 
 /**
  * Created by trineroks on 7/29/17.
  */
 public class Map {
     public int[][] tiles;
-    public Building building;
+    public ArrayList<Building> buildings = new ArrayList<Building>();
 
     private int power, hunger, crime, happy, coin;
+    private int powerCounter; //to animate the actual power going up and down.
+
+    private float second;
+    private boolean gameOver = false;
+    public byte losestate;
 
     public Map() {
+        powerCounter = 100;
         power = 100;
         hunger = 100;
         crime = 0;
         happy = 100;
         coin = 100;
+        losestate = Settings.loseState.PLAYING;
+        second = 0;
     }
 
     public int getPower() {
         return power;
+    }
+
+    public int getPowerCounter() {
+        return powerCounter;
     }
 
     public int getHunger() {
@@ -51,12 +66,77 @@ public class Map {
     }
 
     public void generateBuildings() {
-        building = new Building(Resources.supermarket);
+        Building building = new FoodBuilding(Resources.supermarket);
         building.setInGamePosition(6,5,this);
+        building.setPowerUpRate(100.0f);
+        building.setPowerConsumption(50);
+        buildings.add(building);
+
+        building = new FoodBuilding(Resources.supermarket);
+        building.setInGamePosition(12, 5, this);
+        building.setPowerUpRate(100.0f);
+        building.setPowerConsumption(50);
+        buildings.add(building);
+    }
+
+    public void updatePowerCounter(float delta) {
+        if (powerCounter > power) {
+            powerCounter--;
+        }
+        else if (powerCounter < power) {
+            powerCounter++;
+        }
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
     }
 
     public void update(float delta) {
-        power--;
+        second += delta;
+        updatePowerCounter(delta);
+        if (second >= 1.0f) {
+            second = 0.0f;
+            hunger--;
+            happy--;
+            coin--;
+            crime++;
+        }
+        checkForGameOver();
+    }
+
+    public void checkForGameOver() {
+        if (coin <= 0) {
+            gameOver = true;
+            losestate = Settings.loseState.COIN;
+        }
+        if (crime >= 100) {
+            gameOver = true;
+            losestate = Settings.loseState.CRIME;
+        }
+        if (hunger <= 0) {
+            gameOver = true;
+            losestate = Settings.loseState.FOOD;
+        }
+        if (happy <= 0) {
+            gameOver = true;
+            losestate = Settings.loseState.HAPPY;
+        }
+    }
+
+    public void handleClickEvent(int x, int y) {
+        for (Building e : buildings) {
+            if (e.isClicked(x, y)) {
+                if (power - e.getPowerConsumption() < 0) {
+                    //make screen flicker red
+                }
+                if (e.isUnpowered())
+                    power -= e.getPowerConsumption();
+                else if (!e.isUnpowered())
+                    power += e.getPowerConsumption();
+                e.togglePowerState();
+            }
+        }
     }
 
     public int generateTerrain(SpriteCache cache) {

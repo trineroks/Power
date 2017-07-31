@@ -25,9 +25,17 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     }
 
     @Override
+    public void hide() {
+        renderer.dispose();
+    }
+
+    @Override
     public void render(float delta) {
         delta = Math.min(0.06f, Gdx.graphics.getDeltaTime());
         renderer.render(delta);
+        if (renderer.exiting) {
+            game.setScreen(new MainMenuScreen(game));
+        }
     }
 
     @Override

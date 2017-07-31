@@ -4,6 +4,14 @@ package com.ludumGame;
  * Created by trineroks on 7/29/17.
  */
 public class Settings {
+    public interface loseState {
+        byte PLAYING = 0;
+        byte COIN = 1;
+        byte CRIME = 2;
+        byte FOOD = 3;
+        byte HAPPY = 4;
+    }
+
     public final static int screenHeight = 530;
     public final static int screenWidth = 800;
 

@@ -1,6 +1,5 @@
 package com.ludumGame.Buildings;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
@@ -9,18 +8,22 @@ import com.ludumGame.Map;
 /**
  * Created by trineroks on 7/29/17.
  */
-public class Building extends Rectangle {
+public abstract class Building extends Rectangle {
 
     TextureRegion texture;
     private State state;
     private float brightness;
     private float maxBright = 255.0f;
-    private float minBright = 190.0f;
-    private float glowRate = 200.0f;
+    private float minBright = 200.0f;
+    private float glowRate = 250.0f;
+    private float powerUpRate = 1.0f;
     private boolean glowForward;
+
+    private int powerConsumption;
 
     public enum State {
         UNPOWERED,
+        POWERING,
         POWERED,
     }
 
@@ -32,17 +35,42 @@ public class Building extends Rectangle {
         this.glowForward = true;
         setHeight(texture.getRegionHeight());
         setWidth(texture.getRegionWidth());
+        this.powerConsumption = 0;
+    }
+
+    public void setPowerUpRate(float powerUpRate) {
+        this.powerUpRate = powerUpRate;
+    }
+
+    public void setPowerConsumption(int powerConsumption) {
+        this.powerConsumption = powerConsumption;
+    }
+
+    public int getPowerConsumption() {
+        return powerConsumption;
     }
 
     public TextureRegion getTexture() {
         return texture;
     }
 
+    public boolean isPowered() {
+        return state == State.POWERED;
+    }
+
+    public boolean isPowering() {
+        return state == State.POWERING;
+    }
+
+    public boolean isUnpowered() {
+        return state == State.UNPOWERED;
+    }
+
     public void togglePowerState() {
-        if (state == State.POWERED)
+        if (state == State.POWERED || state == State.POWERING)
             state = State.UNPOWERED;
         else
-            state = State.POWERED;
+            state = State.POWERING;
     }
 
     public void setInGamePosition(int posX, int posY, Map map) {
@@ -56,7 +84,9 @@ public class Building extends Rectangle {
 
     public void renderLightBox(ShapeRenderer lightBox, float delta) {
         lightBox.begin(ShapeRenderer.ShapeType.Filled);
-        if (state == State.POWERED)
+        if (state == State.POWERING)
+            powerUp(lightBox, delta);
+        else if (state == State.POWERED)
             animateLight(lightBox, delta);
         else {
             brightness = 0.0f;
@@ -65,6 +95,13 @@ public class Building extends Rectangle {
         }
         lightBox.rect(x, y, width, height);
         lightBox.end();
+    }
+
+    public void powerUp(ShapeRenderer lightBox, float delta) {
+        brightness += powerUpRate * delta;
+        lightBox.setColor(brightness/255.0f, brightness/255.0f, 0, 1);
+        if (brightness >= minBright)
+            state = State.POWERED;
     }
 
     public void animateLight(ShapeRenderer lightBox, float delta) {
@@ -82,5 +119,5 @@ public class Building extends Rectangle {
         lightBox.setColor(brightness/255.0f, brightness/255.0f, 0, 1);
     }
 
-    //abstract void handleClickEvent();
+    abstract void update();
 }

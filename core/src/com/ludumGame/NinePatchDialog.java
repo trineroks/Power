@@ -79,7 +79,7 @@ public class NinePatchDialog {
         }
         else if (state == State.Opened) {
             patch.draw(batch, Settings.dialogPositionX, Settings.dialogPositionY, Settings.dialogWidth, Settings.dialogHeight);
-            font.drawWrapped(batch, content, map.widthToPixel(14), map.heightToPixel(20), map.widthToPixel(22));
+            font.drawWrapped(batch, content, map.widthToPixel(14), map.heightToPixel(21), map.widthToPixel(22));
         }
         else if (state == State.Closing) {
             if (height >= 20)

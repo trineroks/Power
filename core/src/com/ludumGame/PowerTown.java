@@ -7,13 +7,11 @@ import com.ludumGame.Screens.MainMenuScreen;
 public class PowerTown extends Game {
 
 	public SpriteBatch batch;
-	public Map map;
 
 	public void create() {
 		batch = new SpriteBatch();
 		Resources.load();
-		map = new Map();
-		this.setScreen(new MainMenuScreen(this, map));
+		this.setScreen(new MainMenuScreen(this));
 	}
 
 	@Override

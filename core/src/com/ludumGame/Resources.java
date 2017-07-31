@@ -68,6 +68,20 @@ public class Resources {
         supermarket = new TextureRegion(buildings, 0,64,96,96);
     }
 
+    public interface GameOverTexts {
+        String coinLoss = "Your town is in economic shambles! The people decide that if they can't have a job, neither can you. You are no longer mayor.";
+        String crimeLoss = "Your town's been taken over by thugs! Rampant looting and destruction of property ensue. The National Guard is called in and you're no longer mayor.";
+        String foodLoss = "Your town is starving! Don't worry, the military's sending emergency food rations your way! However you're no longer mayor.";
+        String happyLoss = "Your town is unhappy! With no other outlet for frustration, the people take it upon themselves to overthrow you! You are no longer mayor.";
+    }
+
+    public interface GameStartTexts {
+        String intro = "Welcome to Powerton, mayor! We have a limited supply of power as you can see on the top left. Click on buildings to power them on or off. Each building caters to " +
+                "a specific need. The needs are listed at the very top, going left to right: happiness, food, economy, and crime. You lose if happiness, food, or economy reach 0, OR if crime reaches 100. " +
+                "Keep in mind that buildings take time to power up, and larger buildings - although they satisfy a greater amount of needs - consume more power than smaller buildings." +
+                " Good luck mayor! Click anywhere to dismiss this message.";
+    }
+
     public static Texture loadSheet(String file) {
         return new Texture(Gdx.files.internal(file));
     }

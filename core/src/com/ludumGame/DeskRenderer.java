@@ -21,7 +21,7 @@ public class DeskRenderer {
         int x = 25;
         deskPatch.draw(batch, 0, Settings.gameBoardHeight, Settings.deskWidth, Settings.deskHeight);
         batch.draw(Resources.power, x, Settings.GUIElementHeight);
-        font.draw(batch, "" + map.getPower(), x + Settings.GUIElementSize+ 10, Settings.GUIElementHeight + Settings.GUIElementSize/2);
+        font.draw(batch, "" + map.getPowerCounter(), x + Settings.GUIElementSize+ 10, Settings.GUIElementHeight + Settings.GUIElementSize/2);
         x+=Settings.GUIElementSpacing;
         batch.draw(Resources.happy, x, Settings.GUIElementHeight);
         font.draw(batch, "" + map.getHappy(), x + Settings.GUIElementSize+ 10, Settings.GUIElementHeight + Settings.GUIElementSize/2);
@@ -34,5 +34,9 @@ public class DeskRenderer {
         x+=Settings.GUIElementSpacing;
         batch.draw(Resources.crime, x, Settings.GUIElementHeight);
         font.draw(batch, "" + map.getCrime(), x + Settings.GUIElementSize+ 10, Settings.GUIElementHeight + Settings.GUIElementSize/2);
+    }
+
+    public void dispose() {
+        font.dispose();
     }
 }

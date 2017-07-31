@@ -24,6 +24,8 @@ public class PowerTownRenderer {
     DeskRenderer desk;
 
     int pointerX, pointerY;
+    public boolean exiting = false;
+    private boolean gameOver = false;
 
     public enum inputState {
         DEFAULT,
@@ -40,7 +42,7 @@ public class PowerTownRenderer {
         this.lightBox = new ShapeRenderer();
         this.dialog = new NinePatchDialog();
         this.desk = new DeskRenderer();
-        dialog.setContent("Welcome to PowerTown! You are mayor of a town that is limited on power. Make sure to budget your power wisely between buildings to maintain high approval ratings!");
+        dialog.setContent(Resources.GameStartTexts.intro);
         dialog.display();
         this.input = inputState.DEFAULT;
         pointerX = -1;
@@ -57,15 +59,9 @@ public class PowerTownRenderer {
         }
         else {
             if (input == inputState.KEYUP) {
-                if (map.building.isClicked(pointerX, pointerY)) {
-                    map.building.togglePowerState();
-                }
+                map.handleClickEvent(pointerX, pointerY);
             }
         }
-//        else if (dialog.isClosed() && input == inputState.KEYDOWN) {
-//            dialog.setContent("I like your style!");
-//            dialog.display();
-//        }
     }
 
     public void keyDown(int x, int y) {
@@ -98,6 +94,7 @@ public class PowerTownRenderer {
         cache.draw(tileID);
         cache.end();
         batch.setProjectionMatrix(camera.combined);
+        lightBox.setProjectionMatrix(camera.combined);
         handleLightBoxes(delta);
         batch.begin();
         renderBuildings();
@@ -106,19 +103,59 @@ public class PowerTownRenderer {
         batch.end();
         handleInput();
         resetInput();
-        map.update(delta);
+        if (dialog.isClosed()) {//we only want to update the game when there's no dialog screen.
+            if (!gameOver)
+                map.update(delta);
+            else
+                exiting = true;
+        }
+        if (map.isGameOver() && gameOver == false) {
+            handleGameOver();
+        }
+    }
+
+    public void handleGameOver() {
+        byte losestate = map.losestate;
+        String string = "";
+        switch (losestate) {
+            case Settings.loseState.COIN:
+                string += Resources.GameOverTexts.coinLoss;
+                break;
+            case Settings.loseState.CRIME:
+                string += Resources.GameOverTexts.crimeLoss;
+                break;
+            case Settings.loseState.FOOD:
+                string += Resources.GameOverTexts.foodLoss;
+                break;
+            case Settings.loseState.HAPPY:
+                string += Resources.GameOverTexts.happyLoss;
+                break;
+            default:
+                string += "Game over man, game over!";
+                break;
+        }
+        dialog.setContent(string);
+        dialog.display();
+        gameOver = true;
     }
 
     public void renderBuildings() {
-        lightBox.setProjectionMatrix(camera.combined);
-        handleRenderBuilding(map.building);
+        for (Building e : map.buildings)
+            handleRenderBuilding(e);
     }
 
     private void handleLightBoxes(float delta) {
-        map.building.renderLightBox(lightBox, delta);
+        for (Building e : map.buildings)
+            e.renderLightBox(lightBox, delta);
     }
 
     private void handleRenderBuilding(Building building) {
         batch.draw(building.getTexture(), building.getX(), building.getY());
+    }
+
+    public void dispose() {
+        cache.dispose();
+        lightBox.dispose();
+        desk.dispose();
     }
 }

@@ -19,12 +19,12 @@ public class MainMenuScreen extends AbstractScreen implements InputProcessor {
 
     Button play, credits;
 
-    public MainMenuScreen(PowerTown game, Map map) {
+    public MainMenuScreen(PowerTown game) {
         super(game);
         Gdx.input.setInputProcessor(this);
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Settings.screenWidth, Settings.screenHeight);
-        this.map = map;
+        this.map = new Map();
         this.map.generate();
         this.dialog = new NinePatchDialog();
         play = new Button(Resources.playButton);

@@ -1,7 +1,7 @@
 package com.ludumGame.Buildings;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.ludumGame.Map;
+import com.ludumGame.GameLogic;
 
 /**
  * Created by trineroks on 7/30/17.
@@ -27,8 +27,8 @@ public class CoinBuilding extends Building {
     }
 
     @Override
-    public void update(Map map) {
-        map.incrementCoin(coinRate);
-        map.decrementHappy(decHappyRate);
+    public void update(GameLogic gameLogic) {
+        gameLogic.incrementCoin(coinRate);
+        gameLogic.decrementHappy(decHappyRate);
     }
 }

@@ -1,40 +1,34 @@
 package com.ludumGame.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.ludumGame.GameLogic;
 import com.ludumGame.PowerTown;
-import com.ludumGame.PowerTownRenderer;
+import com.ludumGame.PowerTownMapRenderer;
 import com.ludumGame.Settings;
 
-public class GameScreen extends AbstractScreen implements InputProcessor {
+/**
+ * Created by trineroks on 7/31/17.
+ */
+public class MapEditorScreen extends AbstractScreen implements InputProcessor {
 
-    GameLogic gameLogic;
-    PowerTownRenderer renderer;
+    PowerTownMapRenderer renderer;
 
-    public GameScreen(PowerTown game, GameLogic gameLogic) {
+    public MapEditorScreen(PowerTown game) {
         super(game);
-        this.gameLogic = gameLogic;
         Gdx.input.setInputProcessor(this);
-    }
-
-    @Override
-    public void show() {
-        renderer = new PowerTownRenderer(gameLogic, game.batch);
-    }
-
-    @Override
-    public void hide() {
-        renderer.dispose();
     }
 
     @Override
     public void render(float delta) {
         delta = Math.min(0.06f, Gdx.graphics.getDeltaTime());
         renderer.render(delta);
-        if (renderer.exiting) {
-            game.setScreen(new MainMenuScreen(game));
-        }
+    }
+
+    @Override
+    public void show() {
+        renderer = new PowerTownMapRenderer(game.batch);
     }
 
     @Override
@@ -44,6 +38,15 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
+        switch(keycode) {
+            case Input.Keys.Q:
+                game.setScreen(new MainMenuScreen(game));
+                break;
+            case Input.Keys.M:
+                renderer.saveToFile();
+            default:
+                break;
+        }
         return false;
     }
 
@@ -55,21 +58,21 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     @Override
     public boolean touchDown(int x, int y, int pointer, int button) {
         y = Settings.screenHeight - y; //moving origin to bottom left to conform to project
-        renderer.keyDown(x, y);
+        renderer.keyDown(x,y);
         return false;
     }
 
     @Override
     public boolean touchUp(int x, int y, int pointer, int button) {
         y = Settings.screenHeight - y; //moving origin to bottom left to conform to project
-        renderer.keyUp(x, y);
+        renderer.keyUp(x,y);
         return false;
     }
 
     @Override
     public boolean touchDragged(int x, int y, int pointer) {
         y = Settings.screenHeight - y; //moving origin to bottom left to conform to project
-        renderer.keyDown(x, y);
+        renderer.keyDown(x,y);
         return false;
     }
 

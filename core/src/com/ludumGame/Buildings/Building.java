@@ -3,7 +3,7 @@ package com.ludumGame.Buildings;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
-import com.ludumGame.Map;
+import com.ludumGame.GameLogic;
 
 /**
  * Created by trineroks on 7/29/17.
@@ -81,9 +81,9 @@ public abstract class Building extends Rectangle {
             state = State.POWERING;
     }
 
-    public void setInGamePosition(int posX, int posY, Map map) {
-        setX(map.widthToPixel(posX));
-        setY(map.heightToPixel(posY));
+    public void setInGamePosition(int posX, int posY, GameLogic gameLogic) {
+        setX(gameLogic.widthToPixel(posX));
+        setY(gameLogic.heightToPixel(posY));
     }
 
     public boolean isClicked(int x, int y) { //check only on keyup
@@ -127,5 +127,5 @@ public abstract class Building extends Rectangle {
         lightBox.setColor(brightness/255.0f, brightness/255.0f, 0, 1);
     }
 
-    abstract public void update(Map map);
+    abstract public void update(GameLogic gameLogic);
 }

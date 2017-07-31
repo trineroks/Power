@@ -15,7 +15,7 @@ public class PowerTownRenderer {
     OrthographicCamera camera;
     SpriteCache cache;
     ShapeRenderer lightBox;
-    Map map;
+    GameLogic gameLogic;
     int tileID;
     NinePatchDialog dialog;
     inputState input;
@@ -33,12 +33,12 @@ public class PowerTownRenderer {
         KEYUP
     }
 
-    public PowerTownRenderer(Map map, SpriteBatch batch) {
-        this.map = map;
+    public PowerTownRenderer(GameLogic gameLogic, SpriteBatch batch) {
+        this.gameLogic = gameLogic;
         this.batch = batch;
         this.camera = new OrthographicCamera();
         this.camera.setToOrtho(false, Settings.screenWidth, Settings.screenHeight);
-        this.cache = new SpriteCache(map.tiles.length * map.tiles[0].length, false);
+        this.cache = new SpriteCache(Settings.blocksWidth * Settings.blocksHeight, false);
         this.lightBox = new ShapeRenderer();
         this.dialog = new NinePatchDialog();
         this.desk = new DeskRenderer();
@@ -47,8 +47,8 @@ public class PowerTownRenderer {
         this.input = inputState.DEFAULT;
         pointerX = -1;
         pointerY = -1;
-        this.tileID = map.generateTerrain(cache);
-        map.generateBuildings();
+        this.tileID = gameLogic.generateTerrain(cache);
+        gameLogic.generateBuildings();
     }
 
     public void handleInput() {
@@ -59,7 +59,7 @@ public class PowerTownRenderer {
         }
         else {
             if (input == inputState.KEYUP) {
-                map.handleClickEvent(pointerX, pointerY);
+                gameLogic.handleClickEvent(pointerX, pointerY);
             }
         }
     }
@@ -98,33 +98,33 @@ public class PowerTownRenderer {
         handleLightBoxes(delta);
         batch.begin();
         renderBuildings();
-        desk.render(batch, map, delta);
-        dialog.render(batch, map, delta);
+        desk.render(batch, gameLogic, delta);
+        dialog.render(batch, gameLogic, delta);
         handleInput();
         resetInput();
         if (dialog.isClosed()) {//we only want to update the game when there's no dialog screen.
             if (!gameOver)
-                map.update(delta);
+                gameLogic.update(delta);
             else
                 exiting = true;
         }
-        if (map.isGameOver() && gameOver == false) {
+        if (gameLogic.isGameOver() && gameOver == false) {
             handleGameOver();
         }
-        if (map.showWarning) {
+        if (gameLogic.showWarning) {
             batch.draw(Resources.insufficientPower, 200, 215);
         }
-        if (map.showDay) {
-            dialog.setContent("Welcome to Day " + map.currentDay + "! We managed to repair some of the damage to our energy plant. Our energy allowance is " +
+        if (gameLogic.showDay) {
+            dialog.setContent("Welcome to Day " + gameLogic.currentDay + "! We managed to repair some of the damage to our energy plant. Our energy allowance is " +
                     "slightly increased.");
             dialog.display();
-            map.resetDay();
+            gameLogic.resetDay();
         }
         batch.end();
     }
 
     public void handleGameOver() {
-        byte losestate = map.losestate;
+        byte losestate = gameLogic.losestate;
         String string = "";
         switch (losestate) {
             case Settings.loseState.COIN:
@@ -143,19 +143,19 @@ public class PowerTownRenderer {
                 string += "Game over man, game over!";
                 break;
         }
-        string += "\n\n You managed to survive to Day " + map.currentDay + ".";
+        string += "\n\n You managed to survive to Day " + gameLogic.currentDay + ".";
         dialog.setContent(string);
         dialog.display();
         gameOver = true;
     }
 
     public void renderBuildings() {
-        for (Building e : map.buildings)
+        for (Building e : gameLogic.buildings)
             handleRenderBuilding(e);
     }
 
     private void handleLightBoxes(float delta) {
-        for (Building e : map.buildings)
+        for (Building e : gameLogic.buildings)
             e.renderLightBox(lightBox, delta);
     }
 

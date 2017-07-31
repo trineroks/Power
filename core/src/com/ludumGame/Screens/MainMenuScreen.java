@@ -5,8 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.ludumGame.*;
 
 /**
@@ -14,18 +12,20 @@ import com.ludumGame.*;
  */
 public class MainMenuScreen extends AbstractScreen implements InputProcessor {
     OrthographicCamera camera;
-    Map map;
+    GameLogic gameLogic;
     NinePatchDialog dialog;
 
     Button play, credits;
 
+    //Map map;
+
     public MainMenuScreen(PowerTown game) {
         super(game);
+        //map = new Map();
         Gdx.input.setInputProcessor(this);
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Settings.screenWidth, Settings.screenHeight);
-        this.map = new Map();
-        this.map.generate();
+        this.gameLogic = new GameLogic();
         this.dialog = new NinePatchDialog();
         play = new Button(Resources.playButton);
         credits = new Button(Resources.creditButton);
@@ -48,11 +48,11 @@ public class MainMenuScreen extends AbstractScreen implements InputProcessor {
 
         game.batch.draw(play.getTexture(), play.getX(), play.getY());
         game.batch.draw(credits.getTexture(), credits.getX(), credits.getY());
-        dialog.render(game.batch, map, delta);
+        dialog.render(game.batch, gameLogic, delta);
         game.batch.end();
 
 //        if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
-//            game.setScreen(new GameScreen(game, map));
+//            game.setScreen(new GameScreen(game, gameLogic));
 //        }
     }
 
@@ -63,6 +63,8 @@ public class MainMenuScreen extends AbstractScreen implements InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
+        if (keycode == Input.Keys.M)
+            game.setScreen(new MapEditorScreen(game));
         return false;
     }
 
@@ -88,7 +90,7 @@ public class MainMenuScreen extends AbstractScreen implements InputProcessor {
             dialog.display();
         }
         else if (play.isClicked(x, y)) {
-            game.setScreen(new GameScreen(game, map));
+            game.setScreen(new GameScreen(game, gameLogic));
         }
         return false;
     }

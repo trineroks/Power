@@ -1,7 +1,7 @@
 package com.ludumGame.Buildings;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.ludumGame.Map;
+import com.ludumGame.GameLogic;
 
 /**
  * Created by trineroks on 7/31/17.
@@ -24,7 +24,7 @@ public class CrimeBuilding extends Building {
     }
 
     @Override
-    public void update(Map map) {
-        map.decrementCrime(decCrimeRate);
+    public void update(GameLogic gameLogic) {
+        gameLogic.decrementCrime(decCrimeRate);
     }
 }

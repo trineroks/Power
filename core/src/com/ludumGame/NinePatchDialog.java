@@ -63,7 +63,7 @@ public class NinePatchDialog {
         return state == State.Opened;
     }
 
-    public void render(Batch batch, Map map, float delta) {
+    public void render(Batch batch, GameLogic gameLogic, float delta) {
         if (state == State.Opening) {
             if (height != Settings.dialogHeight)
                 height += 112 * delta * Settings.dialogTimeMultiplier;
@@ -79,7 +79,7 @@ public class NinePatchDialog {
         }
         else if (state == State.Opened) {
             patch.draw(batch, Settings.dialogPositionX, Settings.dialogPositionY, Settings.dialogWidth, Settings.dialogHeight);
-            font.drawWrapped(batch, content, map.widthToPixel(14), map.heightToPixel(21), map.widthToPixel(22));
+            font.drawWrapped(batch, content, gameLogic.widthToPixel(14), gameLogic.heightToPixel(21), gameLogic.widthToPixel(22));
         }
         else if (state == State.Closing) {
             if (height >= 20)

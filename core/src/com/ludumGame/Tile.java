@@ -23,4 +23,6 @@ public interface Tile {
         int school = 16;
         int sheriff = 17;
         int shirts = 18;
+        int flower = 19;
+        int stop = 20;
 }

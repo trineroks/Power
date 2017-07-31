@@ -111,6 +111,23 @@ public class PowerTownMapRenderer {
         }
     }
 
+    private void renderTopLayerMap() {
+        for (int y = 0; y < Settings.blocksHeight; y++) {
+            for (int x = 0; x < Settings.blocksWidth; x++) {
+                int posY = Settings.gameBoardHeight - heightToPixel(y) - Settings.tilePixelHeight;
+                int posX = widthToPixel(x);
+                switch (map.getMap()[(y*Settings.blocksWidth) + x]) {
+                    case Tile.stop: batch.draw(Resources.stop, posX, posY);
+                        break;
+                    case Tile.flower: batch.draw(Resources.flower, posX, posY);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+
     private void renderBuildings() {
         for (int y = 0; y < Settings.blocksHeight; y++) {
             for (int x = 0; x < Settings.blocksWidth; x++) {
@@ -199,6 +216,7 @@ public class PowerTownMapRenderer {
         renderMap();
         renderSelectedTile();
         renderBuildings();
+        renderTopLayerMap();
         batch.end();
         output();
         handleInput();
@@ -216,6 +234,12 @@ public class PowerTownMapRenderer {
                 break;
             case Tile.road:
                 currentTexture = Resources.road;
+                break;
+            case Tile.stop:
+                currentTexture = Resources.stop;
+                break;
+            case Tile.flower:
+                currentTexture = Resources.flower;
                 break;
             case Tile.factory:
                 currentTexture = Resources.factory;

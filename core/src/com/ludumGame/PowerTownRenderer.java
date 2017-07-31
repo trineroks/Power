@@ -98,6 +98,7 @@ public class PowerTownRenderer {
         handleLightBoxes(delta);
         batch.begin();
         renderBuildings();
+        renderTopLayer(batch);
         desk.render(batch, gameLogic, delta);
         dialog.render(batch, gameLogic, delta);
         handleInput();
@@ -152,6 +153,10 @@ public class PowerTownRenderer {
     public void renderBuildings() {
         for (Building e : gameLogic.buildings)
             handleRenderBuilding(e);
+    }
+
+    public void renderTopLayer(SpriteBatch batch) {
+        gameLogic.renderTopLayerMap(batch);
     }
 
     private void handleLightBoxes(float delta) {

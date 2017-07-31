@@ -27,6 +27,8 @@ public class Resources {
     
     public static TextureRegion road;
     public static TextureRegion grass;
+    public static TextureRegion stop;
+    public static TextureRegion flower;
 
     public static TextureRegion pub;
     public static TextureRegion police;
@@ -52,19 +54,21 @@ public class Resources {
 
         //The terrains
         grass = new TextureRegion(GUI, 0, 0, 16, 16);
-        road = new TextureRegion(GUI, 16,0,16,16);
+        road = new TextureRegion(GUI, 32,0,16,16);
+        flower = new TextureRegion(GUI, 16,0,16,32);
+        stop = new TextureRegion(GUI, 288,0,32,32);
 
         //The GUI
-        coin = new TextureRegion(GUI, 32,0,30,30);
-        creditButton = new TextureRegion(GUI, 0,80,200,50);
-        crime = new TextureRegion(GUI, 182,0,30,30);
-        deskNinePatch = new TextureRegion(GUI, 242,0,30,30);
-        dialogNinePatch = new TextureRegion(GUI, 212, 0, 30, 30);
-        happy = new TextureRegion(GUI, 152,0,30,30);
-        hunger = new TextureRegion(GUI, 92,0,30,30);
-        playButton = new TextureRegion(GUI, 200, 80, 200,50);
-        power = new TextureRegion(GUI, 122, 0, 30, 30);
-        insufficientPower = new TextureRegion(GUI, 0,30,400,50);
+        coin = new TextureRegion(GUI, 168,0,30,30);
+        creditButton = new TextureRegion(GUI, 0,32,200,50);
+        crime = new TextureRegion(GUI, 198,0,30,30);
+        deskNinePatch = new TextureRegion(GUI, 258,0,30,30);
+        dialogNinePatch = new TextureRegion(GUI, 228, 0, 30, 30);
+        happy = new TextureRegion(GUI, 138,0,30,30);
+        hunger = new TextureRegion(GUI, 78,0,30,30);
+        insufficientPower = new TextureRegion(GUI, 0,82,400,50);
+        playButton = new TextureRegion(GUI, 200, 32, 200,50);
+        power = new TextureRegion(GUI, 48, 0, 30, 30);
 
         //The buildings
         arcade = new TextureRegion(buildings, 96, 256, 144, 96);

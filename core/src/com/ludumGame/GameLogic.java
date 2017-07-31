@@ -1,5 +1,6 @@
 package com.ludumGame;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.SpriteCache;
 import com.ludumGame.Buildings.*;
 
@@ -314,5 +315,21 @@ public class GameLogic {
             }
         }
         return cache.endCache();
+    }
+
+    public void renderTopLayerMap(SpriteBatch batch) {
+        for (int y = 0; y < Settings.blocksHeight; y++) {
+            for (int x = 0; x < Settings.blocksWidth; x++) {
+                int posY = Settings.gameBoardHeight - heightToPixel(y) - Settings.tilePixelHeight;
+                int posX = widthToPixel(x);
+                switch (map.getMap()[(y*Settings.blocksWidth) + x]) {
+                    case Tile.stop: batch.draw(Resources.stop, posX, posY);
+                        break;
+                    case Tile.flower: batch.draw(Resources.flower, posX, posY);
+                        break;
+                    default: break;
+                }
+            }
+        }
     }
 }

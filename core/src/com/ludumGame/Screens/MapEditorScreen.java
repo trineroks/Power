@@ -48,6 +48,12 @@ public class MapEditorScreen extends AbstractScreen implements InputProcessor {
             case Input.Keys.NUM_2:
                 setSelectedTile(Tile.road);
                 break;
+            case Input.Keys.NUM_3:
+                setSelectedTile(Tile.stop);
+                break;
+            case Input.Keys.NUM_4:
+                setSelectedTile(Tile.flower);
+                break;
             case Input.Keys.Q:
                 setSelectedTile(Tile.arcade);
                 break;

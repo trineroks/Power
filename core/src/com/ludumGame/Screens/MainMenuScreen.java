@@ -33,8 +33,8 @@ public class MainMenuScreen extends AbstractScreen implements InputProcessor {
 
     @Override
     public void show() {
-        play.setButtonPosition(300,180);
-        credits.setButtonPosition(300, 250);
+        play.setButtonPosition(300,130);
+        credits.setButtonPosition(300, 200);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class MainMenuScreen extends AbstractScreen implements InputProcessor {
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-
+        game.batch.draw(Resources.powertonsplash, 0, 0);
         game.batch.draw(play.getTexture(), play.getX(), play.getY());
         game.batch.draw(credits.getTexture(), credits.getX(), credits.getY());
         dialog.render(game.batch, gameLogic, delta);

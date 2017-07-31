@@ -13,6 +13,7 @@ import javax.xml.soap.Text;
 public class Resources {
     public static Texture buildings;
     public static Texture GUI;
+    public static Texture powertonsplash;
     
     public static TextureRegion dialogNinePatch;
     public static TextureRegion deskNinePatch;
@@ -51,6 +52,7 @@ public class Resources {
     public static void load() {
         buildings = loadSheet("BuildingSheet.png");
         GUI = loadSheet("GUISheet.png");
+        powertonsplash = loadSheet("powertonsplash.png");
 
         //The terrains
         grass = new TextureRegion(GUI, 0, 0, 16, 16);

@@ -21,6 +21,8 @@ public abstract class Building extends Rectangle {
     protected float powerUpRate = 1.0f;
     protected boolean large;
 
+    public boolean isCrimeBuilding = false;
+
     private int powerConsumption;
 
     public enum State {
@@ -44,7 +46,9 @@ public abstract class Building extends Rectangle {
         this.powerConsumption = 0;
     }
 
-
+    protected void setCrimeBuilding() {
+        isCrimeBuilding = true;
+    }
 
     public void setPowerUpRate(float powerUpRate) {
         this.powerUpRate = powerUpRate;

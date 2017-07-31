@@ -18,13 +18,15 @@ public class CrimeBuilding extends Building {
             decCrimeRate = 4;
         } else {
             setPowerUpRate(200.0f);
-            setPowerConsumption(30);
+            setPowerConsumption(20);
             decCrimeRate = 1;
         }
+        setCrimeBuilding();
     }
 
     @Override
     public void update(GameLogic gameLogic) {
         gameLogic.decrementCrime(decCrimeRate);
+        gameLogic.crimeBuildingOn = true;
     }
 }

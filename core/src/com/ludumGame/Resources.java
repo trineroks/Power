@@ -37,6 +37,14 @@ public class Resources {
     public static TextureRegion bowling;
     public static TextureRegion cafe;
     public static TextureRegion courthouse;
+    public static TextureRegion arcade;
+    public static TextureRegion burger;
+    public static TextureRegion departmentstore;
+    public static TextureRegion donuts;
+    public static TextureRegion icecream;
+    public static TextureRegion school;
+    public static TextureRegion sheriff;
+    public static TextureRegion shirts;
 
     public static void load() {
         buildings = loadSheet("BuildingSheet.png");
@@ -59,15 +67,23 @@ public class Resources {
         insufficientPower = new TextureRegion(GUI, 0,30,400,50);
 
         //The buildings
-        factory = new TextureRegion(buildings, 160,64,96,160);
-        police = new TextureRegion(buildings, 0, 224, 128,64);
-        pub = new TextureRegion(buildings, 128,224,48,48);
-        supermarket = new TextureRegion(buildings, 96,288,96,96);
-        restaurant = new TextureRegion(buildings, 0, 288, 96,64);
-        bank = new TextureRegion(buildings, 0, 0, 64,64);
-        bowling = new TextureRegion(buildings, 64,0,144,64);
-        cafe = new TextureRegion(buildings, 208,0,48,48);
-        courthouse = new TextureRegion(buildings, 0, 64, 160,112);
+        arcade = new TextureRegion(buildings, 96, 256, 144, 96);
+        bank = new TextureRegion(buildings, 96, 112, 64,64);
+        bowling = new TextureRegion(buildings, 0,176,144,64);
+        burger = new TextureRegion(buildings, 0,48,48,48);
+        cafe = new TextureRegion(buildings, 0,0,48,48);
+        courthouse = new TextureRegion(buildings, 0, 448, 160,112);
+        departmentstore = new TextureRegion(buildings, 0,352, 160,96);
+        donuts = new TextureRegion(buildings,144,0,48,48);
+        factory = new TextureRegion(buildings, 160,448,96,160);
+        icecream = new TextureRegion(buildings, 96,0,48,48);
+        police = new TextureRegion(buildings, 96, 48, 128,64);
+        pub = new TextureRegion(buildings, 192,0,48,48);
+        restaurant = new TextureRegion(buildings, 0, 112, 96,64);
+        school = new TextureRegion(buildings, 144,176,96,80);
+        sheriff = new TextureRegion(buildings, 48,0,48,48);
+        shirts = new TextureRegion(buildings, 48,48,48,48);
+        supermarket = new TextureRegion(buildings, 0,256,96,96);
     }
 
     public interface GameOverTexts {

@@ -15,4 +15,12 @@ public interface Tile {
         int bowling = 8;
         int cafe = 9;
         int courthouse = 10;
+        int arcade = 11;
+        int burger = 12;
+        int departmentstore = 13;
+        int donuts = 14;
+        int icecream = 15;
+        int school = 16;
+        int sheriff = 17;
+        int shirts = 18;
 }

@@ -1,7 +1,6 @@
 package com.ludumGame;
 
 import com.badlogic.gdx.graphics.g2d.SpriteCache;
-import com.badlogic.gdx.utils.Json;
 import com.ludumGame.Buildings.*;
 
 import java.util.ArrayList;
@@ -18,6 +17,7 @@ public class GameLogic {
     private float second = 0;
     private float twoSecond = 0;
     private float dayCounter = 0.0f;
+    public boolean crimeBuildingOn = false;
     private boolean gameOver = false;
     private int decrementer;
     public byte losestate;
@@ -26,6 +26,7 @@ public class GameLogic {
     public boolean showDay = false;
     public int currentDay = 0;
     private Map map;
+    public int crimeBuildingCounter = 0;
 
     private final float warningLinger = 1.0f;
     private float warningTimer = 0.0f;
@@ -68,13 +69,13 @@ public class GameLogic {
         return coin;
     }
 
-    public void incrementHunger(int value) {
+    public void incrementFood(int value) {
         hunger += value;
         if (hunger >= Settings.needsHardCap)
             hunger = Settings.needsHardCap;
     }
 
-    public void decrementHunger(int value) {
+    public void decrementFood(int value) {
         hunger -= value;
         if (hunger <= 0)
             hunger = 0;
@@ -127,41 +128,72 @@ public class GameLogic {
     }
 
     public void generateBuildings() {
-        Building building = new FoodBuilding(Resources.supermarket);
-        building.setInGamePosition(7,6,this);
-        buildings.add(building);
-
-        building = new FoodBuilding(Resources.restaurant);
-        building.setInGamePosition(20, 20, this);
-        buildings.add(building);
-
-        building = new CoinBuilding(Resources.factory);
-        building.setInGamePosition(43, 6, this);
-        buildings.add(building);
-
-        building = new CoinBuilding(Resources.factory);
-        building.setInGamePosition(36, 6, this);
-        buildings.add(building);
-
-        building = new CoinBuilding(Resources.bank);
-        building.setInGamePosition(1, 1, this);
-        buildings.add(building);
-
-        building = new HappyBuilding(Resources.pub);
-        building.setInGamePosition(1,26,this);
-        buildings.add(building);
-
-        building = new HappyBuilding(Resources.pub);
-        building.setInGamePosition(1, 22, this);
-        buildings.add(building);
-
-        building = new HappyBuilding(Resources.bowling);
-        building.setInGamePosition(40, 18, this);
-        buildings.add(building);
-
-        building = new CrimeBuilding(Resources.courthouse);
-        building.setInGamePosition(20, 1,this);
-        buildings.add(building);
+        Building building;
+        for (int y = 0; y < Settings.blocksHeight; y++) {
+            for (int x = 0; x < Settings.blocksWidth; x++) {
+                int posY = Settings.blocksHeight - y - 1;
+                switch (map.getMap()[(y*Settings.blocksWidth) + x]) {
+                    case Tile.factory:
+                        building = new CoinBuilding(Resources.factory);
+                        break;
+                    case Tile.police:
+                        building = new CrimeBuilding(Resources.police);
+                        break;
+                    case Tile.pub:
+                        building = new HappyBuilding(Resources.pub);
+                        break;
+                    case Tile.supermarket:
+                        building = new FoodBuilding(Resources.supermarket);
+                        break;
+                    case Tile.restaurant:
+                        building = new FoodBuilding(Resources.restaurant);
+                        break;
+                    case Tile.bank:
+                        building = new CoinBuilding(Resources.bank);
+                        break;
+                    case Tile.bowling:
+                        building = new HappyBuilding(Resources.bowling);
+                        break;
+                    case Tile.cafe:
+                        building = new FoodBuilding(Resources.cafe);
+                        break;
+                    case Tile.courthouse:
+                        building = new CrimeBuilding(Resources.courthouse);
+                        break;
+                    case Tile.arcade:
+                        building = new HappyBuilding(Resources.arcade);
+                        break;
+                    case Tile.burger:
+                        building = new FoodBuilding(Resources.burger);
+                        break;
+                    case Tile.departmentstore:
+                        building = new MallBuilding(Resources.departmentstore);
+                        break;
+                    case Tile.donuts:
+                        building = new CopFoodBuilding(Resources.donuts);
+                        break;
+                    case Tile.icecream:
+                        building = new DessertBuilding(Resources.icecream);
+                        break;
+                    case Tile.school:
+                        building = new EducationBuilding(Resources.school);
+                        break;
+                    case Tile.sheriff:
+                        building = new CrimeBuilding(Resources.sheriff);
+                        break;
+                    case Tile.shirts:
+                        building = new CoinBuilding(Resources.shirts);
+                        break;
+                    default:
+                        building = null;
+                        break;
+                }
+                if (building != null) {
+                    building.setInGamePosition(x, posY, this);
+                    buildings.add(building);
+                }
+            }
+        }
     }
 
     public void updatePowerCounter(float delta) {
@@ -208,7 +240,7 @@ public class GameLogic {
     public void updateNeeds() {
         decrementHappy(decrementer);
         decrementCoin(decrementer);
-        decrementHunger(decrementer);
+        decrementFood(decrementer);
         if (twoSecond >= 2.0f) {
             twoSecond = 0.0f;
             incrementCrime(decrementer);
@@ -217,8 +249,9 @@ public class GameLogic {
 
     public void updateActiveBuildings() {
         for (Building e : buildings) {
-            if (e.isPowered())
+            if (e.isPowered()) {
                 e.update(this);
+            }
         }
     }
 
@@ -249,10 +282,16 @@ public class GameLogic {
                     warningTimer = 0.0f;
                 }
                 else {
-                     if (e.isUnpowered())
-                        power -= e.getPowerConsumption();
-                     else if (!e.isUnpowered())
-                        power += e.getPowerConsumption();
+                     if (e.isUnpowered()) {
+                         power -= e.getPowerConsumption();
+                         if (e.isCrimeBuilding)
+                             crimeBuildingCounter++;
+                     }
+                     else if (!e.isUnpowered()) {
+                         power += e.getPowerConsumption();
+                         if (e.isCrimeBuilding)
+                             crimeBuildingCounter--;
+                     }
                     e.togglePowerState();
                 }
             }

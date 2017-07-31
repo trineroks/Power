@@ -40,6 +40,6 @@ public class Settings {
     public final static float dialogWidth = tilePixelWidth * 26;
     public final static float dialogHeight = tilePixelHeight * 14;
 
-    public final static String creditsText = "PowerTown programmed by trineroks for Ludum Dare 39. Building sprites provided by What.\n\n" +
+    public final static String creditsText = "PowerTown programmed by trineroks for Ludum Dare 39. Building sprites provided by Connor Sorensen.\n\n" +
                                         "Special thanks to Stuhuffsty for providing some of the minor artwork.";
 }

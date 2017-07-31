@@ -16,8 +16,10 @@ public abstract class Building extends Rectangle {
     private float maxBright = 255.0f;
     private float minBright = 200.0f;
     private float glowRate = 250.0f;
-    private float powerUpRate = 1.0f;
     private boolean glowForward;
+
+    protected float powerUpRate = 1.0f;
+    protected boolean large;
 
     private int powerConsumption;
 
@@ -35,8 +37,14 @@ public abstract class Building extends Rectangle {
         this.glowForward = true;
         setHeight(texture.getRegionHeight());
         setWidth(texture.getRegionWidth());
+        if (getWidth() * getHeight() >= 6400) //if a building is larger than 80x80, it is defined as large.
+            large = true;
+        else
+            large = false;
         this.powerConsumption = 0;
     }
+
+
 
     public void setPowerUpRate(float powerUpRate) {
         this.powerUpRate = powerUpRate;
@@ -119,5 +127,5 @@ public abstract class Building extends Rectangle {
         lightBox.setColor(brightness/255.0f, brightness/255.0f, 0, 1);
     }
 
-    abstract void update();
+    abstract public void update(Map map);
 }

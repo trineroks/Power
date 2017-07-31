@@ -12,6 +12,9 @@ public class Settings {
         byte HAPPY = 4;
     }
 
+    public final static int needsHardCap = 200;
+    public final static float maxDayTime = 30.0f;
+
     public final static int screenHeight = 530;
     public final static int screenWidth = 800;
 

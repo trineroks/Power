@@ -100,7 +100,6 @@ public class PowerTownRenderer {
         renderBuildings();
         desk.render(batch, map, delta);
         dialog.render(batch, map, delta);
-        batch.end();
         handleInput();
         resetInput();
         if (dialog.isClosed()) {//we only want to update the game when there's no dialog screen.
@@ -112,6 +111,16 @@ public class PowerTownRenderer {
         if (map.isGameOver() && gameOver == false) {
             handleGameOver();
         }
+        if (map.showWarning) {
+            batch.draw(Resources.insufficientPower, 200, 215);
+        }
+        if (map.showDay) {
+            dialog.setContent("Welcome to Day " + map.currentDay + "! We managed to repair some of the damage to our energy plant. Our energy allowance is " +
+                    "slightly increased.");
+            dialog.display();
+            map.resetDay();
+        }
+        batch.end();
     }
 
     public void handleGameOver() {
@@ -134,6 +143,7 @@ public class PowerTownRenderer {
                 string += "Game over man, game over!";
                 break;
         }
+        string += "\n\n You managed to survive to Day " + map.currentDay + ".";
         dialog.setContent(string);
         dialog.display();
         gameOver = true;
